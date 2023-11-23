@@ -11,6 +11,7 @@
 
 ### 2.2 Development Environment Requirements
 - Node Version: 18.
+- Yarn Version: 1.22.21
 - No Specific Requirements: Developers are encouraged to use their preferred local development setup, with the only requirement being Node.js version 18.
 
 
@@ -41,14 +42,14 @@ Workflow Name: CI/CD Pipeline
 Trigger: On every push to the main branch, ensuring continuous integration and deployment.
 
 ### 4.2 Build Phase
-1. 4.2.1 Checkout Repository
+1. Checkout Repository
 ```yaml
 Copy code
 - name: Checkout repository
  uses: actions/checkout@v2
 ```
 
-2. 4.2.2 Set up Node.js
+2. Set up Node.js
 ```yaml
 Copy code
 - name: Set up Node.js
@@ -57,23 +58,23 @@ Copy code
  node-version: 18
 ```
 
-3. 4.2.3 Install Dependencies
+3. Install Dependencies
 ```yaml
 Copy code
 - name: Install dependencies
- run: npm install
+ run: yarn install
 ```
 
-4. 4.2.4 Build TypeScript
+4. Build TypeScript
 ```yaml
 Copy code
 - name: Build TypeScript
- run: npm run build
+ run: yarn build
 ```
 
 ### 4.3 Deploy Phase
 
-1. 4.3.1 Deploy to ECS
+1. Deploy to ECS
 ```yaml
 Copy code
 - name: Deploy to ECS
@@ -82,7 +83,7 @@ Copy code
  # Ensure proper configuration for deployment
 ```
 
-2. 4.3.2 Database Migration (if applicable)
+2. Database Migration (if applicable)
 ```yaml
 Copy code
 - name: Database Migration
@@ -114,10 +115,10 @@ jobs:
  node-version: 18
 
  - name: Install dependencies
- run: npm install
+ run: yarn install
 
  - name: Build TypeScript
- run: npm run build
+ run: yarn build
 
  deploy:
  runs-on: ubuntu-latest
@@ -190,5 +191,4 @@ Considerations:
 - Choice between EC2-hosted PostgreSQL and RDS depends on specific project requirements.
 
 This exhaustive document serves as a detailed guide to the DevOps strategy for Maipic, including the benefits of AWS services and considerations for alternative options. Customize the provided GitHub Actions configuration to match your specific project structure and requirements. Ensure that your AWS account has the necessary permissions, and consider additional security measures based on your specific use case and compliance requirements.
-
 
