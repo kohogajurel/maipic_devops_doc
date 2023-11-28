@@ -11,21 +11,26 @@
 
 ### 2.2 Development Environment Requirements
 - Node Version: 18.
-- Yarn Version: 1.22.21
 - No Specific Requirements: Developers are encouraged to use their preferred local development setup, with the only requirement being Node.js version 18.
 
 
 ## 3. AWS Usage
 
 ### 3.1 AWS Services
-1. ECS (Elastic Container Service):
+1. ECS Fargate (Elastic Container Service):
     - Scalability: ECS provides automatic scaling, ensuring that the application can handle varying loads efficiently.
     - Fault Tolerance: ECS distributes tasks across multiple instances, minimizing downtime in case of failures.
     - Resource Efficiency: Efficiently utilizes resources, optimizing costs.
+    - Pricing: 
+        - EC2 Instances: Pay for the EC2 instances used to host the application.
+        - ECS: No additional charges for ECS.
 
 2. EC2 Instances:
     - Control: Provides granular control over the EC2 instances hosting the application and database.
     - Customization: Allows the configuration of instance types based on specific requirements.
+    - Pricing: 
+        Pay for the EC2 instances used to host the application.
+
 
 ### 3.2 AWS Account
 - AWS Account ID: [Your AWS Account ID]
@@ -42,14 +47,14 @@ Workflow Name: CI/CD Pipeline
 Trigger: On every push to the main branch, ensuring continuous integration and deployment.
 
 ### 4.2 Build Phase
-1. Checkout Repository
+1. 4.2.1 Checkout Repository
 ```yaml
 Copy code
 - name: Checkout repository
  uses: actions/checkout@v2
 ```
 
-2. Set up Node.js
+2. 4.2.2 Set up Node.js
 ```yaml
 Copy code
 - name: Set up Node.js
@@ -58,23 +63,23 @@ Copy code
  node-version: 18
 ```
 
-3. Install Dependencies
+3. 4.2.3 Install Dependencies
 ```yaml
 Copy code
 - name: Install dependencies
- run: yarn install
+ run: npm install
 ```
 
-4. Build TypeScript
+4. 4.2.4 Build TypeScript
 ```yaml
 Copy code
 - name: Build TypeScript
- run: yarn build
+ run: npm run build
 ```
 
 ### 4.3 Deploy Phase
 
-1. Deploy to ECS
+1. 4.3.1 Deploy to ECS
 ```yaml
 Copy code
 - name: Deploy to ECS
@@ -83,7 +88,7 @@ Copy code
  # Ensure proper configuration for deployment
 ```
 
-2. Database Migration (if applicable)
+2. 4.3.2 Database Migration (if applicable)
 ```yaml
 Copy code
 - name: Database Migration
@@ -115,10 +120,10 @@ jobs:
  node-version: 18
 
  - name: Install dependencies
- run: yarn install
+ run: npm install
 
  - name: Build TypeScript
- run: yarn build
+ run: npm run build
 
  deploy:
  runs-on: ubuntu-latest
@@ -136,8 +141,13 @@ jobs:
 ## 5. Database Deployment
 
 ### 5.1 PostgreSQL Database
-- Performance Control: Running PostgreSQL on a dedicated EC2 instance allows fine-tuned control over database performance.
+- Performance Control: RDS allows the configuration of database instance types based on specific requirements.
 - Configuration Flexibility: Provides flexibility in configuring PostgreSQL based on specific project requirements.
+- RDS Pricing:
+    - DB Instance Costs: 
+        - Instance type: `db.t4g.small (1 vCPU, 2 GB RAM)`.
+        - Features: Single-AZ deployment, 30 GB storage, 1GB RAM and 1 vCPU burstable performance, 10 GB backup storage.
+        - Pricing: `$16.18 USD per month`.
 
 ### 5.2 Database Schema
 - Managed within the codebase using a version-controlled approach, ensuring consistency across development, testing, and production environments.
@@ -191,4 +201,5 @@ Considerations:
 - Choice between EC2-hosted PostgreSQL and RDS depends on specific project requirements.
 
 This exhaustive document serves as a detailed guide to the DevOps strategy for Maipic, including the benefits of AWS services and considerations for alternative options. Customize the provided GitHub Actions configuration to match your specific project structure and requirements. Ensure that your AWS account has the necessary permissions, and consider additional security measures based on your specific use case and compliance requirements.
+
 
